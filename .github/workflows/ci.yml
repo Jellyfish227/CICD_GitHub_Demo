@@ -1,0 +1,44 @@
+name: ci
+
+# Events that start the autograder. Delete a nested block to stop grading that
+# event. Do not add pull_request_target or a secrets-bearing trigger.
+on:
+  # Grades the commit that was just pushed.
+  push:
+  # Grades the pull request head and posts the result on the pull request.
+  pull_request:
+
+# Values shared by the steps below. Steps read these instead of hard-coding them.
+env:
+  # CMake configuration for the configure step. Use Release or Debug.
+  BUILD_TYPE: Release
+
+jobs:
+  grade:
+    name: grade
+    # Runner selection. This list is a single OS so the job stays on the primary runner.
+    # Add another entry only after that change has been agreed.
+    strategy:
+      matrix:
+        # Primary runner. Replace ubuntu-latest to move the job to another image.
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      # Fetches the submission. Pinned to checkout v7, the current major version.
+      # Read the actions/checkout README before changing the major version.
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # Generates build files in build/. The runner image supplies cmake and g++.
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+
+      # Compiles the grader program and the rubric executable.
+      - name: Build
+        run: cmake --build build --parallel
+
+      # Runs every registered test. --no-tests=error fails the job when CTest
+      # finds zero tests, so a missing add_test() cannot receive a passing grade.
+      - name: Test
+        run: ctest --test-dir build --output-on-failure --no-tests=error

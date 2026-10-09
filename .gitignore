@@ -1,0 +1,5 @@
+# Configure and build output. The autograder recreates this directory in CI.
+build/
+
+AGENTS.md
+README.md
