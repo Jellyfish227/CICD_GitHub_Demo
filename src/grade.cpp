@@ -14,16 +14,16 @@ int percentage(int earned, int possible) {
 
 char letter_grade(int percent) {
     if (percent >= 90) {
-        return 'A';
+        return 'X';
     }
     if (percent >= 80) {
-        return 'B';
+        return 'X';
     }
     if (percent >= 70) {
-        return 'C';
+        return 'X';
     }
     if (percent >= 60) {
-        return 'D';
+        return 'X';
     }
     return 'F';
 }
