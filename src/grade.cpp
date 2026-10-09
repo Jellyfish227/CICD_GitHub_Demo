@@ -17,15 +17,15 @@ char letter_grade(int percent) {
         return 'A';
     }
     if (percent >= 80) {
-        return 'X';
+        return 'B';
     }
     if (percent >= 70) {
-        return 'X';
+        return 'C';
     }
     if (percent >= 60) {
-        return 'X';
+        return 'D';
     }
-    return 'X';
+    return 'F';
 }
 
 bool is_passing(int percent) {
