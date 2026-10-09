@@ -7,7 +7,7 @@
 
 namespace {
 
-bool parse_int(const char* text, int& value, char& bruh) {
+bool parse_int(const char* text, int& value) {
     errno = 0;
     char* end = nullptr;
     const long parsed = std::strtol(text, &end, 10);
